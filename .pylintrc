@@ -1,0 +1,5 @@
+[MASTER]
+max-line-length=120  # Optional: Increase the limit instead of disabling
+
+[MESSAGES CONTROL]
+disable=line-too-long  # Disables the C0301 warning for lines exceeding the length
