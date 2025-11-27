@@ -14,7 +14,7 @@ from Crypto.Protocol.KDF import PBKDF2
 from Crypto.Util.Padding import pad, unpad
 
 
-class EncryptApp:
+class EncryptApp:  # pylint: disable=too-many-instance-attributes
     """A GUI application for encrypting and decrypting files using AES."""
 
     def __init__(self, root_window):
@@ -67,8 +67,8 @@ class EncryptApp:
             return
         try:
             encrypt_file_aes(self.selected_file_path, password)
-            messagebox.showinfo('Success',
-                                f'File encrypted: {os.path.basename(self.selected_file_path)}.enc')
+            msg = f'File encrypted: {os.path.basename(self.selected_file_path)}.enc'
+            messagebox.showinfo('Success', msg)
         except (ValueError, IOError, OSError) as e:
             messagebox.showerror('Error', str(e))
 
@@ -87,8 +87,8 @@ class EncryptApp:
         try:
             decrypt_file_aes(self.selected_file_path, password)
             original_path = self.selected_file_path[:-4]  # Remove .enc extension
-            messagebox.showinfo('Success',
-                                f'File decrypted: {os.path.basename(original_path)}')
+            msg = f'File decrypted: {os.path.basename(original_path)}'
+            messagebox.showinfo('Success', msg)
         except (ValueError, IOError, OSError) as e:
             messagebox.showerror('Error', str(e))
 
