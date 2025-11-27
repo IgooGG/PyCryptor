@@ -1,5 +1,12 @@
+"""
+File Encryptor/Decryptor Application
+
+This module provides a GUI application for encrypting and decrypting files
+using AES encryption with PBKDF2 key derivation.
+"""
+
 import tkinter as tk
-from tkinter import filedialog, messagebox, ttk
+from tkinter import filedialog, messagebox
 import os
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
@@ -10,32 +17,32 @@ from Crypto.Util.Padding import pad, unpad
 class EncryptApp:
     """A GUI application for encrypting and decrypting files using AES."""
 
-    def __init__(self, root):
+    def __init__(self, root_window):
         """Initialize the application with GUI elements."""
-        self.root = root
+        self.root = root_window
         self.root.title('File Encryptor/Decryptor')
         self.root.geometry('400x300')
 
         # File selection
-        self.file_label = tk.Label(root, text="Selected File: None")
+        self.file_label = tk.Label(root_window, text="Selected File: None")
         self.file_label.pack(pady=10)
 
-        self.select_file_btn = tk.Button(root, text="Select File",
+        self.select_file_btn = tk.Button(root_window, text="Select File",
                                          command=self.select_file)
         self.select_file_btn.pack()
 
         # Password input
-        self.password_label = tk.Label(root, text="Password:")
+        self.password_label = tk.Label(root_window, text="Password:")
         self.password_label.pack(pady=5)
-        self.password_entry = tk.Entry(root, show="*")
+        self.password_entry = tk.Entry(root_window, show="*")
         self.password_entry.pack()
 
         # Buttons
-        self.encrypt_btn = tk.Button(root, text="Encrypt",
+        self.encrypt_btn = tk.Button(root_window, text="Encrypt",
                                      command=self.encrypt_file)
         self.encrypt_btn.pack(side=tk.LEFT, padx=20, pady=20)
 
-        self.decrypt_btn = tk.Button(root, text="Decrypt",
+        self.decrypt_btn = tk.Button(root_window, text="Decrypt",
                                      command=self.decrypt_file)
         self.decrypt_btn.pack(side=tk.RIGHT, padx=20, pady=20)
 
@@ -62,7 +69,7 @@ class EncryptApp:
             encrypt_file_aes(self.selected_file_path, password)
             messagebox.showinfo('Success',
                                 f'File encrypted: {os.path.basename(self.selected_file_path)}.enc')
-        except Exception as e:
+        except (ValueError, IOError, OSError) as e:
             messagebox.showerror('Error', str(e))
 
     def decrypt_file(self):
@@ -82,7 +89,7 @@ class EncryptApp:
             original_path = self.selected_file_path[:-4]  # Remove .enc extension
             messagebox.showinfo('Success',
                                 f'File decrypted: {os.path.basename(original_path)}')
-        except Exception as e:
+        except (ValueError, IOError, OSError) as e:
             messagebox.showerror('Error', str(e))
 
 
